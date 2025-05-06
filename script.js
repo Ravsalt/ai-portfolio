@@ -6,6 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
     detectDevice();
 });
 
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
     const typedElement = document.querySelector('#im-a');
     if (!typedElement) return;
