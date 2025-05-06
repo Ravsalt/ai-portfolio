@@ -26,7 +26,10 @@
         
     <!-- Bootstrap 5 + Custom Styles -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="ai-chat.css">
 
     <!-- Icons & Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -56,6 +59,11 @@
                 <li class="nav-item"><a class="nav-link px-4 mx-2" href="#projects">Projects</a></li>
                 <li class="nav-item"><a class="nav-link px-4 mx-2" href="#skills">Skills</a></li>
                 <li class="nav-item"><a class="nav-link px-4 mx-2" href="#contact">Contact</a></li>
+                <li class="nav-item nav-item-ai-chat">
+                    <a href="#" id="aiChatNavbarIcon" class="nav-link nav-link-ai-chat px-3 mx-1 d-flex align-items-center">
+                        <img src="/ai-icon.png" alt="AI Chat Icon">
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>
@@ -76,7 +84,7 @@
                     I build websites, break security, and tinker with AI.  
                     Not your average dev <br>I like figuring things out from the ground up.
                 </p>
-                <a href="#contact" class="btn btn-primary btn-lg mt-5 px-5 py-3">Let’s Talk</a>
+                <a href="#" id="letsTalkBtn" class="btn btn-primary btn-lg mt-5 px-5 py-3">Let’s Talk</a>
             </div>
             <!-- Image Section (38.2%) -->
             <div class="col-lg-5 order-lg-2 order-1 text-center">
@@ -257,9 +265,31 @@
         <p>&copy; 2024 Raven. All rights reserved.</p>
     </footer>
 
+    <!-- AI Chat Panel -->
+    <div id="aiChatPanel" class="ai-chat-panel">
+        <div class="ai-chat-header">
+            <img src="/ai-icon.png" alt="AI Avatar" class="ai-chat-header-avatar">
+            <span>AI Twin</span>
+            <button id="aiChatClose" class="ai-chat-close">&times;</button>
+        </div>
+        <div class="ai-chat-messages">
+            <!-- Initial bot message -->
+            <p class="ai-chat-message ai-chat-message-bot">Hello! How can I help you today?</p>
+        </div>
+        <div class="ai-chat-suggestions" id="aiChatSuggestions">
+            <!-- Suggestion buttons will be added dynamically -->
+        </div>
+        <div class="ai-chat-input-area">
+            <input type="text" id="aiChatInput" placeholder="Type your message...">
+            <button id="aiChatSend">Send</button>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="script.js" defer></script>
+    <script src="script.js"></script>
+    <script src="github-api.js"></script> 
+    <script src="ai-chat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 </body>
 </html>
