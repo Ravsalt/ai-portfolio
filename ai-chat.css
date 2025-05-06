@@ -1,0 +1,715 @@
+/* AI Chat Styles - Navbar Icon */
+.nav-item-ai-chat .nav-link-ai-chat {
+    display: flex;        /* Use flex to help center the image */
+    align-items: center;  /* Vertically center image */
+    justify-content: center; /* Horizontally center image, if link is wider */
+    padding-top: 0.5rem;    /* Match other nav-links if possible */
+    padding-bottom: 0.5rem; /* Match other nav-links if possible */
+    line-height: 1; /* Prevent extra space if img is inline-block */
+}
+
+.nav-link-ai-chat img {
+    height: 26px; /* Slightly larger */
+    width: 26px;  /* Slightly larger */
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease;
+    display: block; /* Ensure it behaves as a block for sizing */
+    background-color: white; /* Added white background */
+    border-radius: 50%;     /* Make it circular */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.nav-link-ai-chat img:hover {
+    transform: scale(1.15);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+/* AI Chat Panel Styles */
+.ai-chat-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 350px; /* Slightly wider for better readability */
+    max-height: 70vh;
+    background-color: var(--light-bg, #F5F5F5); /* Fallback if var not found */
+    border: none; /* Remove border for cleaner look */
+    border-radius: 15px; /* More rounded corners */
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.18); /* Enhanced shadow */
+    z-index: 1000;
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    overflow: hidden;
+    transition: all 0.3s ease; /* Smooth transitions */
+}
+
+/* Add a subtle animation when the chat panel appears */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.ai-chat-panel.active {
+    animation: slideIn 0.3s forwards;
+    display: flex;
+}
+
+.ai-chat-header {
+    background: linear-gradient(135deg, #6B6354, #8A7F6D); /* Gradient background */
+    color: var(--text-light, #F9F9F9);
+    padding: 14px 18px; /* More padding */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: none; /* Remove border */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow instead */
+    position: relative; /* For the bottom marker */
+}
+
+/* Add a subtle decorative marker at the bottom of the header */
+.ai-chat-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 3px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+.ai-chat-header-avatar {
+    width: 35px; /* Larger avatar */
+    height: 35px; /* Larger avatar */
+    border-radius: 50%; /* Make it circular */
+    margin-right: 12px; /* Space between avatar and title */
+    object-fit: cover; /* Ensures the image covers the area well */
+    background-color: var(--light-bg, #f0f0f0); /* Optional: fallback bg */
+    border: 2px solid rgba(255, 255, 255, 0.5); /* Add a subtle border */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.ai-chat-header span { /* Style for the title text */
+    font-weight: 600; /* Semi-bold */
+    font-size: 1.1rem; /* Slightly larger title */
+    letter-spacing: 0.3px; /* Slightly spaced letters */
+}
+
+.ai-chat-close {
+    background: none;
+    border: none;
+    color: var(--text-light, #F9F9F9);
+    font-size: 28px; /* Larger icon */
+    cursor: pointer;
+    padding: 0; /* Padding will be handled by width/height and flex centering */
+    line-height: 1;
+    border-radius: 50%; /* Circular button */
+    width: 32px;        /* Explicit width */
+    height: 32px;       /* Explicit height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.ai-chat-close:hover {
+    background-color: rgba(255, 255, 255, 0.15); /* Enhanced hover effect */
+    transform: rotate(90deg); /* Add rotation for interest */
+}
+
+.ai-chat-close:active {
+    background-color: rgba(255, 255, 255, 0.25);  /* Slightly darker on press */
+    transform: scale(0.9) rotate(90deg); /* Pressed effect with rotation */
+}
+
+.ai-chat-messages {
+    flex-grow: 1;
+    padding: 18px; /* Increased padding */
+    overflow-y: auto;
+    background-color: #ffffff;
+    /* Add some subtle styling to the scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+/* Style scrollbars for webkit browsers */
+.ai-chat-messages::-webkit-scrollbar {
+    width: 5px;
+}
+
+.ai-chat-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.ai-chat-messages::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.ai-chat-message {
+    padding: 12px 16px; /* Increased padding */
+    border-radius: 18px; /* More rounded */
+    margin-bottom: 14px; /* Increased margin */
+    max-width: 85%;    /* Slightly wider */
+    word-wrap: break-word;
+    font-size: 0.95rem; /* Slightly larger text */
+    line-height: 1.5;   /* Improved line height */
+    display: table;     /* Important for bubble effect */
+    clear: both;        /* Ensure proper stacking */
+    position: relative; /* For added decorations/effects */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+}
+
+/* Add message timestamps */
+.ai-chat-message::after {
+    content: attr(data-time);
+    position: absolute;
+    bottom: -18px;
+    font-size: 0.65rem;
+    color: #999;
+    white-space: nowrap;
+}
+
+.ai-chat-message-user {
+    background: linear-gradient(135deg, #BF9782, #D1A994); /* Gradient background */
+    color: var(--text-dark, #2E2D2E);
+    margin-left: auto;
+    border-bottom-right-radius: 5px; /* Adjust bubble shape */
+    border-top-right-radius: 5px; /* Adjust bubble shape */
+}
+
+.ai-chat-message-user::after {
+    right: 5px;
+}
+
+.ai-chat-message-bot {
+    background: linear-gradient(135deg, #e9e9eb, #f5f5f7); /* Subtle gradient */
+    color: var(--text-dark, #2E2D2E);
+    margin-right: auto;
+    border-bottom-left-radius: 5px; /* Adjust bubble shape */
+    border-top-left-radius: 5px; /* Adjust bubble shape */
+}
+
+.ai-chat-message-bot::after {
+    left: 5px;
+}
+
+/* Add a visual indicator for bot messages */
+.ai-chat-message-bot::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    width: 8px;
+    height: 8px;
+    background-color: #6B6354;
+    border-radius: 50%;
+    opacity: 0.8;
+}
+
+/* Enhanced markdown styling for chat messages */
+/* Heading styles inside chat messages */
+.ai-chat-message h1 {
+    font-size: 1.3rem;
+    margin: 0.7em 0 0.5em;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 5px;
+    font-weight: 600;
+    color: #2e2d2e;
+}
+
+.ai-chat-message h2 {
+    font-size: 1.1rem;
+    margin: 0.6em 0 0.4em;
+    font-weight: 600;
+    color: #2e2d2e;
+}
+
+.ai-chat-message h3 {
+    font-size: 1rem;
+    margin: 0.5em 0 0.3em;
+    font-weight: 600;
+    color: #2e2d2e;
+}
+
+/* Paragraph spacing */
+.ai-chat-message p {
+    margin: 0 0 0.6em 0;
+}
+
+.ai-chat-message p:last-child {
+    margin-bottom: 0;
+}
+
+/* Lists styling */
+.ai-chat-message ul, 
+.ai-chat-message ol {
+    margin: 0.4em 0;
+    padding-left: 1.5em;
+}
+
+.ai-chat-message li {
+    margin-bottom: 0.3em;
+}
+
+.ai-chat-message li:last-child {
+    margin-bottom: 0;
+}
+
+/* Make sure lists don't break the bubble */
+.ai-chat-message ul, 
+.ai-chat-message ol {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+/* Blockquote styling */
+.ai-chat-message blockquote {
+    border-left: 3px solid rgba(0, 0, 0, 0.2);
+    padding-left: 0.7em;
+    margin: 0.5em 0;
+    color: #555;
+    font-style: italic;
+}
+
+/* Code styling */
+.ai-chat-message code {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 0.9em;
+    color: #c53030;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* Code blocks */
+.ai-chat-message pre {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin: 0.7em 0;
+}
+
+.ai-chat-message pre code {
+    background-color: transparent;
+    padding: 0;
+    color: #333;
+    white-space: pre;
+}
+
+/* Horizontal rule */
+.ai-chat-message hr {
+    border: 0;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.1);
+    margin: 0.8em 0;
+}
+
+/* Link styling */
+.ai-chat-message a {
+    color: #0000EE;
+    text-decoration: underline;
+    word-break: break-all;
+}
+
+.ai-chat-message a:hover {
+    text-decoration: none;
+}
+
+/* Bold and italic text */
+.ai-chat-message strong {
+    font-weight: 600;
+    color: inherit;
+}
+
+.ai-chat-message em {
+    font-style: italic;
+    color: inherit;
+}
+
+.ai-chat-message-tool-result {
+    background-color: #f0f8ff; /* Light blue for tool output */
+    color: #444;              /* Darker text for readability */
+    border-left: 3px solid #4a6fa5; /* Left accent border */
+    margin-left: auto;        /* Center-ish */
+    margin-right: auto;
+    border-radius: 8px;       /* Softer corners */
+    font-size: 0.8em;
+    font-style: italic;
+    max-width: 90%; 
+    padding: 10px 12px;
+}
+
+.ai-chat-message-tool-calling {
+    background-color: #e0e7ff; /* Light blue/indigo */
+    color: #3730a3;           /* Darker indigo text */
+    font-style: italic;
+    border-left: 3px solid #818cf8; /* Left accent */
+}
+
+/* Typing Indicator for Bot Messages */
+.ai-chat-message-bot .typing-indicator {
+    display: inline-flex;     /* Aligns dots in a row */
+    align-items: center;      /* Vertically center dots */
+    padding-left: 6px;        /* Space after any text */
+}
+
+.ai-chat-message-bot .typing-indicator span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin: 0 2px;
+    background-color: currentColor; /* Uses bot message text color */
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: typingAnimation 1.4s infinite ease-in-out both;
+}
+
+.ai-chat-message-bot .typing-indicator span:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.ai-chat-message-bot .typing-indicator span:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.ai-chat-message-bot .typing-indicator span:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+@keyframes typingAnimation {
+    0%, 80%, 100% {
+        transform: scale(0.6);
+        opacity: 0.4;
+    }
+    40% {
+        transform: scale(1.0);
+        opacity: 1;
+    }
+}
+
+.ai-chat-input-area {
+    display: flex;
+    padding: 14px; /* Increased padding */
+    border-top: 1px solid rgba(0, 0, 0, 0.05); /* Subtle separator */
+    background-color: #f9f9f9; /* Slightly different from body */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.02); /* Subtle shadow */
+}
+
+#aiChatInput {
+    flex-grow: 1;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 20px; /* Fully rounded */
+    margin-right: 10px;
+    font-size: 0.95rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) inset; /* Inset shadow */
+    transition: all 0.2s ease;
+}
+
+#aiChatInput:focus {
+    outline: none;
+    border-color: #BF9782;
+    box-shadow: 0 0 0 2px rgba(191, 151, 130, 0.2); /* Focus glow */
+}
+
+#aiChatSend {
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #6A5D53, #8A7F6D); /* Gradient background */
+    color: var(--text-light, #F9F9F9);
+    border: none;
+    border-radius: 20px; /* Fully rounded */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+/* Add a paper plane icon to the send button */
+#aiChatSend::before {
+    content: '↗';
+    margin-right: 5px;
+    font-size: 0.9em;
+    transition: transform 0.2s ease;
+}
+
+#aiChatSend:hover {
+    background: linear-gradient(135deg, #BF9782, #D1A994); /* Gradient on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow on hover */
+}
+
+#aiChatSend:hover::before {
+    transform: translateX(2px) translateY(-2px); /* Move icon on hover */
+}
+
+#aiChatSend:active {
+    transform: translateY(0); /* Reset on click */
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .ai-chat-panel {
+        width: 90%;
+        right: 5%;
+        left: 5%;
+        bottom: 10px;
+    }
+}
+
+
+
+/* Add these styles to your existing ai-chat.css file to enhance markdown display */
+
+/* Heading styles inside chat messages */
+.ai-chat-message h1 {
+    font-size: 1.3rem;
+    margin: 0.7em 0 0.5em;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 5px;
+    font-weight: 600;
+    color: #2e2d2e;
+}
+
+.ai-chat-message h2 {
+    font-size: 1.1rem;
+    margin: 0.6em 0 0.4em;
+    font-weight: 600;
+    color: #2e2d2e;
+}
+
+.ai-chat-message h3 {
+    font-size: 1rem;
+    margin: 0.5em 0 0.3em;
+    font-weight: 600;
+    color: #2e2d2e;
+}
+
+/* Paragraph spacing */
+.ai-chat-message p {
+    margin: 0 0 0.6em 0;
+}
+
+.ai-chat-message p:last-child {
+    margin-bottom: 0;
+}
+
+/* Lists styling */
+.ai-chat-message ul, 
+.ai-chat-message ol {
+    margin: 0.4em 0;
+    padding-left: 1.5em;
+}
+
+.ai-chat-message li {
+    margin-bottom: 0.3em;
+}
+
+.ai-chat-message li:last-child {
+    margin-bottom: 0;
+}
+
+/* Make sure lists don't break the bubble */
+.ai-chat-message ul, 
+.ai-chat-message ol {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+/* Blockquote styling */
+.ai-chat-message blockquote {
+    border-left: 3px solid rgba(0, 0, 0, 0.2);
+    padding-left: 0.7em;
+    margin: 0.5em 0;
+    color: #555;
+    font-style: italic;
+}
+
+/* Code styling */
+.ai-chat-message code {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 0.9em;
+    color: #c53030;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* Horizontal rule */
+.ai-chat-message hr {
+    border: 0;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.1);
+    margin: 0.8em 0;
+}
+
+/* Link styling */
+.ai-chat-message a {
+    color: #0000EE;
+    text-decoration: underline;
+    word-break: break-all;
+}
+
+.ai-chat-message a:hover {
+    text-decoration: none;
+}
+
+/* Bold and italic text */
+.ai-chat-message strong {
+    font-weight: 600;
+    color: inherit;
+}
+
+.ai-chat-message em {
+    font-style: italic;
+    color: inherit;
+}
+
+/* Make sure the messages can handle longer words */
+.ai-chat-message {
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Ensure message bubbles can handle embedded content properly */
+.ai-chat-message-bot, 
+.ai-chat-message-user {
+    min-width: 40%;
+}
+
+/* Tables styling */
+.ai-chat-message table {
+    border-collapse: collapse;
+    margin: 0.7em 0;
+    font-size: 0.9em;
+    width: 100%;
+    overflow-x: auto;
+    display: block;
+}
+
+.ai-chat-message th,
+.ai-chat-message td {
+    padding: 6px 10px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.ai-chat-message th {
+    background-color: rgba(0, 0, 0, 0.05);
+    font-weight: 600;
+}
+
+.ai-chat-message tr:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Image styling */
+.ai-chat-message img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin: 0.5em 0;
+}
+
+/* Checkbox lists */
+.ai-chat-message input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* Definition lists */
+.ai-chat-message dl {
+    margin: 0.5em 0;
+}
+
+.ai-chat-message dt {
+    font-weight: 600;
+    margin-top: 0.5em;
+}
+
+.ai-chat-message dd {
+    margin-left: 1.5em;
+    margin-bottom: 0.3em;
+}
+
+/* Superscript and subscript */
+.ai-chat-message sup,
+.ai-chat-message sub {
+    font-size: 0.75em;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+.ai-chat-message sup {
+    top: -0.5em;
+}
+
+.ai-chat-message sub {
+    bottom: -0.25em;
+}
+
+/* Error message styling */
+.ai-chat-message-error {
+    background-color: #fff2f2;
+    color: #c53030;
+    margin-left: auto;
+    margin-right: auto;
+    border-left: 3px solid #c53030;
+    font-size: 0.9em;
+    max-width: 90%;
+    padding: 10px 12px;
+    border-radius: 8px;
+}
+
+/* Retry button styling */
+.ai-chat-retry-button {
+    display: block;
+    margin-top: 8px;
+    padding: 5px 15px;
+    background-color: #6B6354;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+}
+
+.ai-chat-retry-button:hover {
+    background-color: #BF9782;
+    transform: translateY(-1px);
+}
+
+.ai-chat-retry-button:active {
+    transform: translateY(1px);
+}
+
+/* Enhanced styles for error messages in bot replies */
+.ai-chat-message-bot.error {
+    background: linear-gradient(135deg, #fff0f0, #fff5f5);
+    border-left: 3px solid #c53030;
+}
+
+/* Rate limit specific message styling */
+.rate-limit-message {
+    color: #9c4221;
+    font-style: italic;
+}
+
+/* Countdown timer styling */
+.retry-countdown {
+    font-weight: bold;
+    color: #9c4221;
+}
