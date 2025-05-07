@@ -5,6 +5,12 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 
 jobs:
   build-and-deploy:
@@ -22,3 +28,4 @@ jobs:
           folder: .
           branch: gh-pages
           clean: true
+          token: ${{ secrets.GITHUB_TOKEN }}  # Using the built-in token
