@@ -4,19 +4,77 @@
  * @param {number} count - Maximum number of repositories to fetch
  * @returns {Promise<string>} - JSON string with repository data
  */
+// CORS proxy configuration
+const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
+
+/**
+ * Creates CORS headers for GitHub API requests
+ * @returns {Object} Headers object with CORS and GitHub API settings
+ */
+function createGitHubHeaders() {
+    return {
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+    };
+}
+
+/**
+ * Makes a CORS-enabled fetch request to GitHub API
+ * @param {string} url - GitHub API endpoint
+ * @param {Object} options - Fetch options
+ * @returns {Promise<Response>} Fetch response
+ */
+async function fetchWithCors(url, options = {}) {
+    const headers = {
+        ...createGitHubHeaders(),
+        ...(options.headers || {})
+    };
+
+    const requestOptions = {
+        ...options,
+        headers,
+        mode: 'cors',
+        credentials: 'omit',
+        cache: 'default'
+    };
+
+    try {
+        // First try direct fetch
+        let response = await fetch(url, requestOptions);
+        
+        // If CORS fails, try with proxy
+        if (!response.ok && response.type === 'opaque') {
+            console.log('Direct CORS request failed, trying with proxy...');
+            response = await fetch(`${CORS_PROXY}${url}`, {
+                ...requestOptions,
+                headers: {
+                    ...requestOptions.headers,
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+        }
+        
+        return response;
+    } catch (error) {
+        console.error('Fetch error:', error);
+        throw error;
+    }
+}
+
+/**
+ * Fetches a list of repositories for a GitHub user
+ * @param {string} username - GitHub username
+ * @param {number} count - Maximum number of repositories to fetch
+ * @returns {Promise<string>} - JSON string with repository data
+ */
 async function fetchUserRepositories(username, count = 10) {
     const apiUrl = `https://api.github.com/users/${username}/repos?per_page=${count}&sort=updated`;
     console.log(`Fetching repositories from: ${apiUrl}`);
 
     try {
-        const response = await fetch(apiUrl, {
-            method: 'GET',
-            mode: 'cors',
-            cache: 'no-cache',
-            headers: {
-                'Accept': 'application/vnd.github.v3+json',
-                'Content-Type': 'application/json'
-            }
+        const response = await fetchWithCors(apiUrl, {
+            method: 'GET'
         });
 
         if (!response.ok) {
@@ -79,14 +137,8 @@ async function fetchLatestCommitsFromGitHub(username, repoName, count = 3) {
     console.log(`Fetching commits from: ${apiUrl}`);
 
     try {
-        const response = await fetch(apiUrl, {
-            method: 'GET',
-            mode: 'cors',
-            cache: 'no-cache',
-            headers: {
-                'Accept': 'application/vnd.github.v3+json',
-                'Content-Type': 'application/json'
-            }
+        const response = await fetchWithCors(apiUrl, {
+            method: 'GET'
         });
 
         if (!response.ok) {
