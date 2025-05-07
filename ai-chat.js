@@ -225,6 +225,22 @@ ${githubData}
         }
     }
 
+    // Add click handler for the Let's Talk button
+    const letsTalkBtn = document.getElementById('letsTalkBtn');
+    if (letsTalkBtn) {
+        letsTalkBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            // Make sure the chat panel is visible
+            aiChatPanel.style.display = 'flex';
+            // Focus the input field
+            if (aiChatInput) {
+                aiChatInput.focus();
+            }
+            // Scroll to bottom to show the latest messages
+            setTimeout(scrollToBottom, 100);
+        });
+    }
+
     if (aiChatNavbarIcon) {
         aiChatNavbarIcon.addEventListener('click', (event) => {
             event.preventDefault();
