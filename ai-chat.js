@@ -453,6 +453,9 @@ ${githubData}
         return Math.min(delay, 10000); // Cap at 10 seconds
     }
 
+    // Global CORS proxy configuration
+    const CORS_PROXY = ''; // Can be set via window.CORS_PROXY if needed
+    
     async function postChatCompletion(messages, options = {}, isRetry = false) {
         // If a request is already in progress and this is not a retry, don't send another
         if (requestInProgress && !isRetry) {
@@ -463,7 +466,7 @@ ${githubData}
         // Rate limiting check - ensure we're not sending requests too quickly
         const now = Date.now();
         const timeSinceLastRequest = now - lastRequestTime;
-        const MIN_REQUEST_INTERVAL = 1000; // 1 second minimum between requests
+        const MIN_REQUEST_INTERVAL = 1500; // 1.5 seconds minimum between requests
         
         if (!isRetry && timeSinceLastRequest < MIN_REQUEST_INTERVAL) {
             const waitTime = MIN_REQUEST_INTERVAL - timeSinceLastRequest;
@@ -506,44 +509,82 @@ ${githubData}
             }
         }
         
-        const url = "https://text.pollinations.ai/openai";
+        // Use CORS proxy if available, otherwise use direct URL
+        const apiUrl = new URL("https://text.pollinations.ai/openai");
+        const targetUrl = CORS_PROXY ? `${CORS_PROXY}${apiUrl.pathname}` : apiUrl.toString();
+        
         const payload = {
             model: options.model || "openai",
             messages: messages,
-            seed: options.seed,
-            private: options.private,
-            referrer: options.referrer || "WebApp"
+            seed: options.seed || Math.floor(Math.random() * 10000),
+            private: options.private || false,
+            referrer: options.referrer || "RavenPortfolioWebApp"
         };
 
-        console.log(`Sending POST request to: ${url} (${isRetry ? 'retry #' + retryCount : 'initial request'})`);
+        console.log(`Sending ${isRetry ? 'retry #' + retryCount : 'initial'} request to:`, {
+            url: targetUrl,
+            payload: {
+                ...payload,
+                messages: '[' + payload.messages.length + ' messages]' // Don't log full messages
+            }
+        });
 
         try {
-            const response = await fetch(url, {
+            const fetchOptions = {
                 method: "POST",
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'omit',
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 },
-                body: JSON.stringify(payload),
-            });
+                body: JSON.stringify(payload)
+            };
+
+            // Add CORS headers if using a proxy
+            if (CORS_PROXY) {
+                fetchOptions.headers['X-Target-URL'] = apiUrl.toString();
+            }
+
+
+            const response = await fetch(targetUrl, fetchOptions);
 
             if (!response.ok) {
-                const errorText = await response.text();
+                let errorText;
+                try {
+                    errorText = await response.text();
+                    // Try to parse as JSON for structured error messages
+                    try {
+                        const errorJson = JSON.parse(errorText);
+                        errorText = errorJson.error?.message || errorText;
+                    } catch (e) {
+                        // Not JSON, use as is
+                    }
+                } catch (e) {
+                    errorText = 'Could not read error response';
+                }
+                
                 const statusCode = response.status;
                 const errorMessage = `HTTP error! status: ${statusCode}, message: ${errorText}`;
                 console.error(errorMessage);
                 
-                // Handle rate limiting (HTTP 429)
-                if (statusCode === 429) {
+                // Special handling for rate limiting (HTTP 429) and server errors (5xx)
+                if (statusCode === 429 || (statusCode >= 500 && statusCode < 600)) {
                     // If we haven't exceeded max retries, try again with backoff
                     if (retryCount < MAX_RETRIES) {
                         retryCount++;
                         const retryDelay = getBackoffDelay();
                         
                         if (botMessageElement) {
-                            botMessageElement.innerHTML = `Rate limited. Retrying in ${Math.round(retryDelay/1000)} seconds... <span class="typing-indicator"><span></span><span></span><span></span></span>`;
+                            const retryMessage = statusCode === 429 ? 
+                                `Rate limited. Retrying in ${Math.round(retryDelay/1000)} seconds...` :
+                                `Temporary server issue. Retrying in ${Math.round(retryDelay/1000)} seconds...`;
+                            
+                            botMessageElement.innerHTML = `${retryMessage} <span class="typing-indicator"><span></span><span></span><span></span></span>`;
                         }
                         
-                        console.log(`Rate limited. Retry #${retryCount} in ${retryDelay}ms`);
+                        console.log(`API error (${statusCode}). Retry #${retryCount} in ${retryDelay}ms`);
                         await new Promise(resolve => setTimeout(resolve, retryDelay));
                         
                         // Reset request in progress flag for the retry
@@ -553,16 +594,25 @@ ${githubData}
                     } else {
                         // Max retries exceeded
                         if (botMessageElement) {
-                            botMessageElement.innerHTML = `Too many requests. Please wait a moment and try again.`;
+                            const errorMsg = statusCode === 429 ? 
+                                'Too many requests. Please wait a few minutes and try again.' :
+                                'The server is having issues. Please try again later.';
+                                
+                            botMessageElement.innerHTML = errorMsg;
                             const retryButton = createRetryButton(messages[messages.length - 1].content, botMessageElement);
                             botMessageElement.appendChild(retryButton);
                         }
-                        chatHistory.push({ role: "assistant", content: `[Error: Rate limited (${statusCode})]` });
+                        chatHistory.push({ role: "assistant", content: `[Error: ${statusCode === 429 ? 'Rate limited' : 'Server error'}]` });
                     }
                 } else {
-                    // Other error types
+                    // Other client-side errors (4xx)
                     if (botMessageElement) {
-                        botMessageElement.innerHTML = `Error: ${statusCode}. ${statusCode === 502 ? 'Server overloaded.' : 'Check console.'}`;
+                        let userFriendlyError = 'An error occurred. Please try again.';
+                        if (statusCode === 400) userFriendlyError = 'Invalid request. The message might be too long or malformed.';
+                        if (statusCode === 401 || statusCode === 403) userFriendlyError = 'Authentication failed. Please refresh the page.';
+                        if (statusCode === 404) userFriendlyError = 'The chat service is currently unavailable.';
+                        
+                        botMessageElement.innerHTML = `${userFriendlyError} (Error ${statusCode})`;
                         const retryButton = createRetryButton(messages[messages.length - 1].content, botMessageElement);
                         botMessageElement.appendChild(retryButton);
                     }
