@@ -10,18 +10,28 @@ async function fetchUserRepositories(username, count = 10) {
 
     try {
         const response = await fetch(apiUrl, {
+            method: 'GET',
+            mode: 'cors',
+            cache: 'no-cache',
             headers: {
-                'Accept': 'application/vnd.github.v3+json'
+                'Accept': 'application/vnd.github.v3+json',
+                'Content-Type': 'application/json'
             }
         });
 
         if (!response.ok) {
-            const errorData = await response.json().catch(() => ({ message: response.statusText }));
+            const errorText = await response.text();
+            let errorData;
+            try {
+                errorData = JSON.parse(errorText);
+            } catch (e) {
+                errorData = { message: errorText };
+            }
             console.error(`GitHub API error! Status: ${response.status}, Message: ${errorData.message}`);
             return JSON.stringify({ 
                 error: true, 
                 status: response.status, 
-                message: `Failed to fetch repositories: ${errorData.message || 'Unknown error'}` 
+                message: `GitHub API error: ${errorData.message || response.statusText}`
             });
         }
 
@@ -65,25 +75,33 @@ async function fetchUserRepositories(username, count = 10) {
  * @returns {Promise<string>} - JSON string with commit data
  */
 async function fetchLatestCommitsFromGitHub(username, repoName, count = 3) {
-    const apiUrl = `https://api.github.com/repos/${username}/${repoName}/commits?per_page=${count}`;
+    const apiUrl = `https://api.github.com/repos/${encodeURIComponent(username)}/${encodeURIComponent(repoName)}/commits?per_page=${count}`;
     console.log(`Fetching commits from: ${apiUrl}`);
 
     try {
         const response = await fetch(apiUrl, {
+            method: 'GET',
+            mode: 'cors',
+            cache: 'no-cache',
             headers: {
                 'Accept': 'application/vnd.github.v3+json',
-                // No explicit 'Authorization' header for public repos, relies on rate limits for unauthenticated requests.
-                // For private repos or higher rate limits, an OAuth token would be needed.
+                'Content-Type': 'application/json'
             }
         });
 
         if (!response.ok) {
-            const errorData = await response.json().catch(() => ({ message: response.statusText }));
+            const errorText = await response.text();
+            let errorData;
+            try {
+                errorData = JSON.parse(errorText);
+            } catch (e) {
+                errorData = { message: errorText };
+            }
             console.error(`GitHub API error! Status: ${response.status}, Message: ${errorData.message}`);
             return JSON.stringify({ 
                 error: true, 
                 status: response.status, 
-                message: `Failed to fetch commits: ${errorData.message || 'Unknown error'}` 
+                message: `GitHub API error: ${errorData.message || response.statusText}`
             });
         }
 
@@ -125,60 +143,126 @@ async function fetchLatestCommitsFromGitHub(username, repoName, count = 3) {
  */
 async function fetchUserContributionSummary(username, repoLimit = 5) {
     try {
-        // First get the user's repositories
+        // First get the user's repositories with enhanced error handling
         const reposResponse = await fetchUserRepositories(username, repoLimit);
-        const repos = JSON.parse(reposResponse);
+        let repos;
+        
+        try {
+            repos = JSON.parse(reposResponse);
+        } catch (e) {
+            console.error('Failed to parse repositories response:', e);
+            return JSON.stringify({
+                error: true,
+                message: 'Failed to parse GitHub API response',
+                details: e.message
+            });
+        }
         
         if (repos.error) {
-            return reposResponse; // Return the error
+            return reposResponse; // Return the original error response
         }
         
-        // For each repository, get some commit stats
-        const contributionSummary = [];
-        
-        for (const repo of repos.slice(0, repoLimit)) { // Limit to avoid rate limiting
+        // For each repository, get some commit stats with better error handling
+        const repoPromises = repos.map(async repo => {
             try {
-                const commitsResponse = await fetchLatestCommitsFromGitHub(username, repo.name, 3);
-                const commits = JSON.parse(commitsResponse);
-                
-                if (!commits.error) {
-                    contributionSummary.push({
-                        repository: repo.name,
-                        description: repo.description,
-                        language: repo.language,
-                        recent_commits: commits,
-                        last_updated: repo.updated_at
-                    });
+                if (!repo || !repo.name) {
+                    console.warn('Skipping invalid repository:', repo);
+                    return null;
                 }
+
+                let recentCommits = [];
+                try {
+                    const commitsResponse = await fetchLatestCommitsFromGitHub(username, repo.name, 3);
+                    const parsedCommits = JSON.parse(commitsResponse);
+                    if (!parsedCommits.error && Array.isArray(parsedCommits)) {
+                        recentCommits = parsedCommits;
+                    }
+                } catch (commitError) {
+                    console.warn(`Could not fetch commits for ${repo.name}:`, commitError);
+                    // Continue with empty commits array
+                }
+                
+                return {
+                    repository: repo.name,
+                    description: repo.description || 'No description',
+                    language: repo.language || 'Not specified',
+                    stars: repo.stargazers_count || 0,
+                    forks: repo.forks_count || 0,
+                    recent_commits: recentCommits,
+                    last_updated: repo.updated_at || new Date().toISOString(),
+                    url: repo.html_url || `https://github.com/${username}/${repo.name}`
+                };
             } catch (error) {
-                console.error(`Error fetching commits for ${repo.name}:`, error);
-                // Continue with other repos even if one fails
+                console.error(`Error processing repository ${repo.name || 'unknown'}:`, error);
+                return null; // Skip this repo if there's an error
             }
-        }
+        });
         
-        console.log(`Generated contribution summary for ${contributionSummary.length} repositories`);
+        const contributionSummary = await Promise.all(repoPromises);
+        const filteredSummary = contributionSummary.filter(repo => repo !== null);
+        
+        console.log(`Generated contribution summary for ${filteredSummary.length} repositories`);
         return JSON.stringify({
             username: username,
             total_repositories: repos.length,
-            contribution_summary: contributionSummary
+            contribution_summary: filteredSummary
         });
         
     } catch (error) {
-        console.error('Error generating contribution summary:', error);
+        const errorMessage = error.message || 'Unknown error occurred';
+        const errorStack = error.stack ? error.stack.split('\n').slice(0, 3).join('\n') : 'No stack trace';
+        
+        console.error('Error in fetchUserContributionSummary:', {
+            message: errorMessage,
+            name: error.name,
+            stack: errorStack,
+            timestamp: new Date().toISOString()
+        });
+        
         return JSON.stringify({ 
-            error: true, 
-            message: `Error generating contribution summary: ${error.message}` 
+            error: true,
+            status: 500,
+            message: `Failed to generate contribution summary: ${errorMessage}`,
+            timestamp: new Date().toISOString()
         });
     }
 }
 
 // Export the functions for use in other modules
-window.githubApi = {
-    get_latest_github_commits_for_user: fetchLatestCommitsFromGitHub,
-    get_user_repositories: fetchUserRepositories,
-    get_user_contribution_summary: fetchUserContributionSummary
-};
+if (typeof window !== 'undefined') {
+    window.githubApi = {
+        get_latest_github_commits_for_user: fetchLatestCommitsFromGitHub,
+        get_user_repositories: fetchUserRepositories,
+        get_user_contribution_summary: fetchUserContributionSummary,
+        // Add CORS proxy helper if needed
+        enableCorsProxy: function(proxyUrl) {
+            if (!proxyUrl.endsWith('/')) proxyUrl += '/';
+            this.corsProxy = proxyUrl;
+            console.log('CORS proxy enabled:', proxyUrl);
+        }
+    };
+}
 
-// Example usage (for testing in browser console if needed):
-// window.githubApi.get_latest_github_commits_for_user('Ravsalt', 'ai-portfolio', 3)
-//     .then(dataStr => console.log(JSON.parse(dataStr)));
+// For Node.js/CommonJS environments
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        getLatestGitHubCommitsForUser: fetchLatestCommitsFromGitHub,
+        getUserRepositories: fetchUserRepositories,
+        getUserContributionSummary: fetchUserContributionSummary,
+        // Add version info
+        VERSION: '1.0.0',
+        // Add CORS proxy helper
+        enableCorsProxy: function(proxyUrl) {
+            if (!proxyUrl.endsWith('/')) proxyUrl += '/';
+            this.corsProxy = proxyUrl;
+            console.log('CORS proxy enabled:', proxyUrl);
+        }
+    };
+}
+
+// Log initialization
+console.log('GitHub API Client initialized', {
+    version: '1.0.0',
+    timestamp: new Date().toISOString(),
+    environment: typeof window !== 'undefined' ? 'browser' : 'node'
+});
