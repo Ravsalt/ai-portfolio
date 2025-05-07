@@ -13,14 +13,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16.x'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
+      - name: Skip npm install (no dependencies)
+        run: echo "Skipping npm install - no dependencies to install"
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
