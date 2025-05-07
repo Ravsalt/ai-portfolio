@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Raven's professional portfolio showcasing technical skills, projects, and experience.">
+    <title>Raven</title>
+
+        <!-- Standard Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+    <!-- PNG Favicons for Different Sizes -->
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+
+    <!-- Apple Touch Icon (For iOS) -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+
+    <!-- Android Chrome Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon/android-chrome-512x512.png">
+
+    <!-- Web App Manifest (Optional for Progressive Web Apps) -->
+    <link rel="manifest" href="/favicon/site.webmanifest">
+
+        
+    <!-- Bootstrap 5 + Custom Styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="ai-chat.css">
+
+    <!-- Icons & Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+.
+<!-- Navbar -->
+<header class="navbar navbar-expand-lg fixed-top bg-dark navbar-dark shadow-sm py-4">
+    <div class="container d-flex align-items-center">
+        <!-- Brand with Image -->
+        <a href="#home" class="navbar-brand fw-bold fs-3 d-flex align-items-center">
+            <img src="https://avatars.githubusercontent.com/u/176220556?v=4" alt="Profile" class="rounded-circle me-2" width="40" height="40">
+            Raven
+        </a>
+
+        <!-- Navbar Toggler -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" 
+            aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Links -->
+        <nav class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link active px-4 mx-2" href="#home">Home</a></li>
+                <li class="nav-item"><a class="nav-link px-4 mx-2" href="#about">About</a></li>
+                <li class="nav-item"><a class="nav-link px-4 mx-2" href="#projects">Projects</a></li>
+                <li class="nav-item"><a class="nav-link px-4 mx-2" href="#skills">Skills</a></li>
+                <li class="nav-item"><a class="nav-link px-4 mx-2" href="#contact">Contact</a></li>
+                <li class="nav-item nav-item-ai-chat">
+                    <a  id="aiChatNavbarIcon" class="nav-link nav-link-ai-chat px-3 mx-1 d-flex align-items-center">
+                        <img src="ai-icon.png" alt="AI Chat Icon">
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+
+
+<!-- Hero Section -->
+<section id="home" class="hero bg-light py-6">
+    <div class="container text-center">
+        <div class="row align-items-center g-5">
+            <!-- Text Section (61.8%) -->
+            <div class="col-lg-7 order-lg-1 order-2">
+                <h1 class="display-3 mb-5" style="font-size: 2.75rem;">Hey, I'm Raven</h1>
+                <h3 id="im-a" class="typing-text text-muted mb-5" style="font-size: 1.75rem;"></h3>
+                <p class="lead" style="font-size: 1.25rem;">
+                    I build websites, break security, and tinker with AI.  
+                    Not your average dev <br>I like figuring things out from the ground up.
+                </p>
+                <a href="#" id="letsTalkBtn" class="btn btn-primary btn-lg mt-5 px-5 py-3">Let’s Talk</a>
+            </div>
+            <!-- Image Section (38.2%) -->
+            <div class="col-lg-5 order-lg-2 order-1 text-center">
+                <img src="igop.jpg" alt="Raven's Profile Picture" 
+                     class="img-fluid rounded-circle shadow-lg border border-3 border-dark" 
+                     width="320" style="max-width: 65%;" loading="lazy">
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<!-- About Me -->
+<section id="about" class="py-5 bg-dark text-white text-center position-relative">
+    <div class="container">
+        <!-- Decorative Line -->
+        <div class="divider mx-auto mb-4"></div>
+
+        <h2 class="mb-4 fw-bold" style="font-size: 2.5rem;">Who Am I?</h2>
+
+        <!-- Animated Intro -->
+        <p class="lead px-lg-5 mx-lg-5 fade-in-text">
+            Started coding at <strong>13</strong> just to see what would break. Turns out, I’m still doing that—just now, I also fix it. Now I'm deep in <strong>development, automation, and AI</strong>, mostly to make my life easier (and maybe yours too).
+            <br><br>
+            I've built <strong>websites, tools, and backend systems</strong>, sometimes because I had to, other times just to prove a point. Tutorials? Yeah, I’ve been there, spent some time in “tutorial hell” too, but hey, that’s how you learn, right? Honestly, I still don’t know what I’m doing half the time, but I make it work anyway.
+            <br><br>
+            I don’t just write code; I make things <strong>run faster, smarter, and with fewer bugs (hopefully)</strong>.
+        </p>
+        
+            <!-- Project Highlights with Clickable Links -->         
+    <h3 id="projects" class="mt-5 fw-bold py-5 bg-dark text-white text-center position-relative">✨ Featured Projects ✨</h3>
+    <div class="row justify-content-center mt-4">
+        <div class="col-lg-4 col-md-6 mb-4">
+            <a href="https://mangaph.ct.ws/" class="project-box text-decoration-none text-center d-block" target="_blank">
+                <i class="fas fa-book-open icon"></i>
+                <h4>MangaPH</h4>
+                <p>Because manga should be easy to read, not a scavenger hunt.</p>
+            </a>
+        </div>
+        
+        <div class="col-lg-4 col-md-6 mb-4">
+            <a href="https://islaweb.ct.ws/" class="project-box text-decoration-none text-center d-block" target="_blank">
+                <i class="fas fa-code icon"></i>
+                <h4>IslaWeb</h4>
+                <p>Helping businesses get online so they can flex their websites.</p>
+            </a>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+            <a href="https://bookhubster.shop/" class="project-box text-decoration-none text-center d-block" target="_blank">
+                <i class="fas fa-book icon"></i>
+                <h4>BookHub</h4>
+                <p>📚 Discover. Read. Repeat. The only commitment issues here are with book series.</p>
+            </a>
+        </div>   
+        
+
+        
+        <div class="col-lg-4 col-md-6 mb-4">
+            <a href="https://maldita.ct.ws/" class="project-box text-decoration-none text-center d-block" target="_blank">
+                <i class="fas fa-heartbeat icon"></i>
+                <h4>Maldita</h4>
+                <p>One click decides everything. No pressure. But also, pressure.</p>
+            </a>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <a href="https://fortsantiago.ct.ws/" class="project-box text-decoration-none text-center d-block" target="_blank">
+                <i class="fas fa-shield-alt icon"></i>
+                <h4>Fort Santiago</h4>
+                <p>A Roblox military game, because why not?</p>
+            </a>
+        </div>
+                 
+    </div>
+
+
+        <!-- AI & ML Highlight -->
+        <p class="mt-4 px-lg-5 mx-lg-5 fade-in-text">
+            Now diving into <strong>AI & ML</strong> because, let’s be real, robots are taking over, 
+            and I’d rather be the one coding them than getting replaced by them.
+        </p>
+    </div>
+</section>
+
+<!-- Skills Section -->
+<section id="skills" class="py-5 text-center position-relative">
+    <div class="container">
+        <!-- Decorative Line -->
+        <div class="skills-divider mx-auto mb-4"></div>
+
+        <h2 class="mb-4 fw-bold skills-heading">What I Can Do</h2>
+
+        <!-- Skills Grid -->
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="skills-box">
+                    <i class="fas fa-laptop-code skills-icon"></i>
+                    <h4>Full-Stack Dev</h4>
+                    <p>Turning coffee into websites and APIs.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="skills-box">
+                    <i class="fas fa-user-secret skills-icon"></i>
+                    <h4>Security</h4>
+                    <p>Because breaking into things ethically is still legal.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="skills-box">
+                    <i class="fas fa-robot skills-icon"></i>
+                    <h4>Automation</h4>
+                    <p>Making scripts so I can be lazy (efficiently).</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="skills-box">
+                    <i class="fas fa-brain skills-icon"></i>
+                    <h4>AI & ML</h4>
+                    <p>Teaching machines to do my job, so I can chill.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="skills-box">
+                    <i class="fas fa-lightbulb skills-icon"></i>
+                    <h4>Problem Solving</h4>
+                    <p>Breaking things just to fix them better.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="skills-box">
+                    <i class="fab fa-linux skills-icon"></i>
+                    <h4>Linux & Servers</h4>
+                    <p>sudo make me a sandwich (and a server).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="contact-section py-5 text-center bg-light">
+    <div class="container">
+        <h2 class="contact-heading mb-4 fw-bold">Get in Touch</h2>
+        <p class="contact-text text-muted">Let's talk code, AI, or just geek out over tech.</p>
+
+        <!-- Email -->
+        <p class="contact-email mb-3">
+            <i class="fas fa-envelope me-2 text-primary"></i> 
+            <a href="mailto:ravpogi10@gmail.com" class="text-dark fw-semibold">ravpogi10@gmail.com</a>
+        </p>
+
+        <!-- Social Links -->
+        <div class="social-icons mt-4">
+            <a href="https://github.com/Ravsalt" class="contact-btn btn btn-outline-dark me-2" 
+               target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-github me-2"></i> GitHub
+            </a>
+            <a href="https://facebook.com/duero.10" class="contact-btn btn btn-outline-primary"
+               target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-facebook me-2"></i> Facebook
+            </a>
+        </div>
+    </div>
+</section>
+
+
+
+    <!-- Footer -->
+    <footer class="footer py-3 bg-dark text-white text-center">
+        <p>&copy; 2024 Raven. All rights reserved.</p>
+    </footer>
+
+    <!-- AI Chat Panel -->
+    <div id="aiChatPanel" class="ai-chat-panel">
+        <div class="ai-chat-header">
+            <img src="ai-icon.png" alt="AI Avatar" class="ai-chat-header-avatar">
+            <span>AI Twin</span>
+            <button id="aiChatClose" class="ai-chat-close">&times;</button>
+        </div>
+        <div class="ai-chat-messages">
+            <!-- Initial bot message -->
+            <p class="ai-chat-message ai-chat-message-bot">Hello! How can I help you today?</p>
+        </div>
+        <div class="ai-chat-suggestions" id="aiChatSuggestions">
+            <!-- Suggestion buttons will be added dynamically -->
+        </div>
+        <div class="ai-chat-input-area">
+            <input type="text" id="aiChatInput" placeholder="Type your message...">
+            <button id="aiChatSend">Send</button>
+        </div>
+    </div>
+
+    <!-- Global error handler -->
+    <script>
+        window.addEventListener('error', function(e) {
+            console.error('Script error:', e.message, 'in', e.filename, 'line', e.lineno);
+        }, true);
+    </script>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="./github-api.js" defer></script>
+    <script src="./ai-chat.js" defer></script>
+    <script src="./script.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,294 @@
+/* Global Colors */
+:root {
+    --primary-color: #6A5D53; /* Darker brown */
+    --secondary-color: #BF9782;
+    --dark-bg: #6B6354;
+    --light-bg: #F5F5F5;
+    --text-dark: #2E2D2E;
+    --text-light: #F9F9F9;
+}
+
+/* Base Styles */
+body {
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.6;
+    scroll-behavior: smooth;
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--dark-bg);
+    padding: 1rem 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.navbar.scrolled {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(12px);
+    background-color: rgba(107, 99, 84, 0.95);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    position: relative;
+    padding: 0.5rem 1rem !important;
+    transition: color 0.3s ease;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--secondary-color);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Hero Section */
+.hero {
+    padding: 8rem 0 5rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    text-align: center;
+}
+
+.hero h1 {
+    font-weight: 700;
+}
+
+.typed-cursor {
+    font-size: 1.2em;
+    opacity: 0.7;
+    animation: blink 0.8s infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        padding: 6rem 0 3rem;
+    }
+    .hero img {
+        max-width: 75%;
+    }
+}
+
+/* Cards */
+.card {
+    border: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 8px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.card-title {
+    font-weight: bold;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--primary-color);
+    border: none;
+    padding: 0.75rem 2rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Contact Form */
+.form-control {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 0.75rem 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(191, 151, 130, 0.25);
+}
+
+/* Social Icons */
+.social-icons a {
+    font-size: 1.75rem;
+    color: var(--primary-color);
+    margin: 0 1rem;
+    padding: 0.5rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.social-icons a:hover {
+    color: var(--secondary-color);
+    transform: translateY(-3px);
+}
+
+/* Footer */
+.footer {
+    background-color: var(--dark-bg);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+
+    /* Skills Section */
+#skills {
+    background-color: #f8f9fa; /* Light background */
+    color: #212529; /* Dark text */
+}
+
+/* Decorative Divider */
+.skills-divider {
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(to right, #212529, #6c757d);
+    border-radius: 2px;
+}
+
+/* Heading */
+.skills-heading {
+    font-size: 2.5rem;
+}
+
+/* Skill Boxes */
+.skills-box {
+    background: rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
+    margin-bottom: 20px;
+}
+
+.skills-box:hover {
+    transform: translateY(-5px);
+    background: rgba(0, 0, 0, 0.1);
+}
+
+/* Icons */
+.skills-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #212529;
+}
+
+
+/* Contact Section Styling */
+.contact-section {
+    padding: 60px 0;
+}
+
+.contact-heading {
+    font-size: 2.5rem;
+    color: #222;
+}
+
+.contact-text {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.contact-email a {
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+.contact-email a:hover {
+    color: #007bff;
+}
+
+/* Social Buttons */
+.social-icons .contact-btn {
+    font-size: 1.1rem;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+}
+
+.social-icons .contact-btn i {
+    font-size: 1.2rem;
+}
+
+.social-icons .contact-btn:hover {
+    transform: translateY(-3px);
+}
+
+/* Navbar Image Styling */
+.navbar-brand img {
+    border: 2px solid #fff; /* Optional: Adds a subtle white border */
+    object-fit: cover;
+}
+
+html {
+    scroll-padding-top: 80px; /* Adjust this value based on your navbar height */
+}
+
+
+/* Decorative Divider */
+.divider {
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(to right, #f8f9fa, #fff);
+    border-radius: 2px;
+}
+
+/* Fade-in Animation */
+.fade-in-text {
+    opacity: 0;
+    animation: fadeIn 1s ease-in-out forwards;
+}
+
+/* Project Boxes */
+.project-box {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    display: block;
+    color: white;
+    text-align: center;
+    transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
+}
+
+.project-box:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+/* Smooth Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
