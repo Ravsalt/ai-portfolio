@@ -27,46 +27,77 @@
 
         
     <!-- Bootstrap 5 + Custom Styles -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+        <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
+    
     <link rel="stylesheet" href="ai-chat.css">
 
     <!-- Icons & Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .animation-delay-300 {
+            animation-delay: 0.3s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .animate-float {
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .animate-float-reverse {
+            animation: float 20s ease-in-out infinite reverse;
+        }
+    </style>
 </head>
-<body>
-.
+<body class="bg-gray-100 text-gray-800 font-sans">
 <!-- Navbar -->
-<header class="navbar navbar-expand-lg fixed-top bg-dark navbar-dark shadow-sm py-4">
-    <div class="container d-flex align-items-center">
+<header class="bg-gray-900/90 backdrop-blur-lg fixed top-0 left-0 right-0 z-50 shadow-md py-3">
+    <div class="container mx-auto flex justify-between items-center">
         <!-- Brand with Image -->
-        <a href="#home" class="navbar-brand fw-bold fs-3 d-flex align-items-center">
-            <img src="https://avatars.githubusercontent.com/u/176220556?v=4" alt="Profile" class="rounded-circle me-2" width="40" height="40">
-            Raven
+        <a href="#home" class="text-white font-bold text-xl flex items-center tracking-wide">
+            <div class="relative mr-2">
+                <img src="https://avatars.githubusercontent.com/u/176220556?v=4" alt="Profile" class="rounded-full border-2 border-blue-500 w-10 h-10">
+                <span class="absolute bottom-0 right-0 p-1 bg-blue-500 border border-white rounded-full"></span>
+            </div>
+            <span class="ml-1">Raven</span>
         </a>
 
-        <!-- Navbar Toggler -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" 
-            aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+        <!-- Navbar Toggler (for mobile) -->
+        <button class="text-white md:hidden" id="nav-toggle">
+            <i class="fas fa-bars"></i>
         </button>
 
         <!-- Navbar Links -->
-        <nav class="collapse navbar-collapse" id="navMenu">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link active px-4 mx-2" href="#home">Home</a></li>
-                <li class="nav-item"><a class="nav-link px-4 mx-2" href="#about">About</a></li>
-                <li class="nav-item"><a class="nav-link px-4 mx-2" href="#projects">Projects</a></li>
-                <li class="nav-item"><a class="nav-link px-4 mx-2" href="#skills">Skills</a></li>
-                <li class="nav-item"><a class="nav-link px-4 mx-2" href="#contact">Contact</a></li>
-                <li class="nav-item nav-item-ai-chat">
-                    <a  id="aiChatNavbarIcon" class="nav-link nav-link-ai-chat px-3 mx-1 d-flex align-items-center">
-                        <img src="ai-icon.png" alt="AI Chat Icon">
-                    </a>
-                </li>
-            </ul>
+        <nav class="hidden md:flex space-x-4 items-center" id="nav-menu">
+            <a class="text-white px-3 py-2 relative hover:text-blue-400" href="#home"><span class="nav-link-text">Home</span></a>
+            <a class="text-white px-3 py-2 relative hover:text-blue-400" href="#about"><span class="nav-link-text">About</span></a>
+            <a class="text-white px-3 py-2 relative hover:text-blue-400" href="#what-i-do"><span class="nav-link-text">Services</span></a>
+            <a class="text-white px-3 py-2 relative hover:text-blue-400" href="#skills"><span class="nav-link-text">Skills</span></a>
+            <a class="text-white px-3 py-2 relative hover:text-blue-400" href="#projects"><span class="nav-link-text">Work</span></a>
+            <a class="text-white px-3 py-2 relative hover:text-blue-400" href="#contact"><span class="nav-link-text">Contact</span></a>
+            <a id="aiChatNavbarIcon" class="bg-blue-500 text-white rounded-full px-4 py-2 flex items-center transition-all duration-300 hover:bg-blue-600">
+                <i class="fas fa-robot mr-1"></i> AI Chat
+            </a>
         </nav>
     </div>
 </header>
@@ -75,26 +106,63 @@
 
 
 <!-- Hero Section -->
-<section id="home" class="hero bg-light py-6">
-    <div class="container text-center">
-        <div class="row align-items-center g-5">
-            <!-- Text Section (61.8%) -->
-            <div class="col-lg-7 order-lg-1 order-2">
-                <h1 class="display-3 mb-5" style="font-size: 2.75rem;">Hey, I'm Raven</h1>
-                <h3 id="im-a" class="typing-text text-muted mb-5" style="font-size: 1.75rem;"></h3>
-                <p class="lead" style="font-size: 1.25rem;">
-                    I build websites, break security, and tinker with AI.  
-                    Not your average dev <br>I like figuring things out from the ground up.
+<section id="home" class="relative overflow-hidden bg-gradient-to-r from-gray-50 to-gray-200 min-h-screen flex items-center py-16">
+    <!-- Animated Background Elements -->
+    <div class="absolute top-0 left-0 w-full h-full z-0 opacity-5">
+        <div class="absolute top-1/4 left-1/10 w-72 h-72 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full filter blur-3xl animate-float"></div>
+        <div class="absolute bottom-1/10 right-1/10 w-96 h-96 bg-gradient-to-r from-orange-500 to-red-500 rounded-full filter blur-3xl animate-float-reverse"></div>
+    </div>
+    
+    <div class="container mx-auto relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <!-- Text Section -->
+            <div class="text-center lg:text-left">
+                <h1 class="text-5xl font-bold mb-4 leading-tight">
+                    Hey, I'm <span class="text-blue-500">Raven</span>
+                </h1>
+                <div id="im-a" class="text-gray-800 text-2xl font-bold mb-4 min-h-8"></div>
+                <p class="text-gray-600 text-lg mb-8 max-w-lg mx-auto lg:mx-0">
+                    I craft digital experiences, secure systems, and intelligent solutions. 
+                    Not your average developer — I thrive on solving complex problems from the ground up.
                 </p>
-                <a id="letsTalkBtn" class="btn btn-primary btn-lg mt-5 px-5 py-3">Let’s Talk</a>
+                <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
+                    <a id="letsTalkBtn" class="bg-blue-500 text-white px-6 py-3 rounded-lg flex items-center transition-transform duration-300 transform hover:scale-105 shadow-lg">
+                        <span>Let's Talk</span>
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                    <a href="#projects" class="bg-gray-800 text-white px-6 py-3 rounded-lg flex items-center transition-all duration-300 hover:bg-gray-900">
+                        <span>View My Work</span>
+                        <i class="fas fa-arrow-down ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- Social Links -->
+                <div class="mt-8 pt-4 flex gap-4 justify-center lg:justify-start">
+                    <a href="https://github.com/ravsalt" class="text-gray-800 text-2xl transition-transform duration-300 transform hover:scale-110">
+                        <i class="fab fa-github"></i>
+                    </a>
+              </div>
             </div>
-            <!-- Image Section (38.2%) -->
-            <div class="col-lg-5 order-lg-2 order-1 text-center">
-                <img src="igop.jpg" alt="Raven's Profile Picture" 
-                     class="img-fluid rounded-circle shadow-lg border border-3 border-dark" 
-                     width="320" style="max-width: 65%;" loading="lazy">
+            
+            <!-- Image Section -->
+            <div class="relative max-w-md mx-auto">
+                <div class="relative z-10">
+                    <img src="igop.jpg" alt="Raven's Profile Picture" 
+                         class="w-full max-w-sm aspect-square object-cover rounded-2xl shadow-2xl border-4 border-white">
+                </div>
+                <!-- Decorative Elements -->
+                <div class="absolute top-0 left-0 w-full h-full border-2 border-dashed border-blue-300 rounded-2xl transform rotate-6"></div>
+                <div class="absolute w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl bottom-[-2rem] right-[-2rem] z-0 opacity-70 filter blur-lg"></div>
             </div>
         </div>
+    </div>
+    
+    <!-- Scroll Down Indicator -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+        <a href="#about" class="text-gray-800 flex flex-col items-center transition-transform duration-300 transform hover:translate-y-1">
+            <span class="mb-2">Scroll Down</span>
+            <i class="fas fa-chevron-down"></i>
+        </a>
     </div>
 </section>
 
@@ -102,170 +170,237 @@
 
 
 <!-- About Me -->
-<section id="about" class="py-5 bg-dark text-white text-center position-relative">
-    <div class="container">
+<section id="about" class="py-16 bg-gray-800 text-white text-center relative">
+    <div class="container mx-auto">
         <!-- Decorative Line -->
-        <div class="divider mx-auto mb-4"></div>
+        <div class="w-20 h-1 bg-gradient-to-r from-gray-100 to-white rounded-full mx-auto mb-4"></div>
 
-        <h2 class="mb-4 fw-bold" style="font-size: 2.5rem;">Who Am I?</h2>
+        <h2 class="text-4xl font-bold mb-4">Who Am I?</h2>
 
         <!-- Animated Intro -->
-        <p class="lead px-lg-5 mx-lg-5 fade-in-text">
+        <p class="text-lg max-w-3xl mx-auto opacity-0 animate-fade-in-up">
             Started coding at <strong>13</strong> just to see what would break. Turns out, I’m still doing that—just now, I also fix it. Now I'm deep in <strong>development, automation, and AI</strong>, mostly to make my life easier (and maybe yours too).
             <br><br>
             I've built <strong>websites, tools, and backend systems</strong>, sometimes because I had to, other times just to prove a point. Tutorials? Yeah, I’ve been there, spent some time in “tutorial hell” too, but hey, that’s how you learn, right? Honestly, I still don’t know what I’m doing half the time, but I make it work anyway.
             <br><br>
             I don’t just write code; I make things <strong>run faster, smarter, and with fewer bugs (hopefully)</strong>.
         </p>
-        
-            <!-- Project Highlights with Clickable Links -->         
-    <h3 id="projects" class="mt-5 fw-bold py-5 bg-dark text-white text-center position-relative">✨ Featured Projects ✨</h3>
-    <div class="row justify-content-center mt-4">
-        <div class="col-lg-4 col-md-6 mb-4">
-            <a href="https://mangaph.ct.ws/" class="project-box text-decoration-none text-center d-block" target="_blank">
-                <i class="fas fa-book-open icon"></i>
-                <h4>MangaPH</h4>
-                <p>Because manga should be easy to read, not a scavenger hunt.</p>
-            </a>
-        </div>
-        
-        <div class="col-lg-4 col-md-6 mb-4">
-            <a href="https://islaweb.ct.ws/" class="project-box text-decoration-none text-center d-block" target="_blank">
-                <i class="fas fa-code icon"></i>
-                <h4>IslaWeb</h4>
-                <p>Helping businesses get online so they can flex their websites.</p>
-            </a>
-        </div>
-
-        <div class="col-lg-4 col-md-6 mb-4">
-            <a href="https://bookhubster.shop/" class="project-box text-decoration-none text-center d-block" target="_blank">
-                <i class="fas fa-book icon"></i>
-                <h4>BookHub</h4>
-                <p>📚 Discover. Read. Repeat. The only commitment issues here are with book series.</p>
-            </a>
-        </div>   
-        
-
-        
-        <div class="col-lg-4 col-md-6 mb-4">
-            <a href="https://maldita.ct.ws/" class="project-box text-decoration-none text-center d-block" target="_blank">
-                <i class="fas fa-heartbeat icon"></i>
-                <h4>Maldita</h4>
-                <p>One click decides everything. No pressure. But also, pressure.</p>
-            </a>
-        </div>
-        <div class="col-lg-4 col-md-6 mb-4">
-            <a href="https://fortsantiago.ct.ws/" class="project-box text-decoration-none text-center d-block" target="_blank">
-                <i class="fas fa-shield-alt icon"></i>
-                <h4>Fort Santiago</h4>
-                <p>A Roblox military game, because why not?</p>
-            </a>
-        </div>
-                 
-    </div>
-
 
         <!-- AI & ML Highlight -->
-        <p class="mt-4 px-lg-5 mx-lg-5 fade-in-text">
+        <p class="mt-6 max-w-3xl mx-auto opacity-0 animate-fade-in-up animation-delay-300">
             Now diving into <strong>AI & ML</strong> because, let’s be real, robots are taking over, 
             and I’d rather be the one coding them than getting replaced by them.
         </p>
     </div>
 </section>
 
+<!-- What I Do Section -->
+<section id="what-i-do" class="py-16 bg-gray-100">
+    <div class="container mx-auto">
+        <h2 class="text-center text-4xl font-bold mb-8">What I Do</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="bg-white rounded-lg shadow-md p-8 text-center">
+                <i class="fas fa-laptop-code text-4xl text-blue-500 mb-4"></i>
+                <h5 class="text-xl font-bold">Full-Stack Dev</h5>
+                <p class="text-gray-600">Turning coffee into websites and APIs.</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-8 text-center">
+                <i class="fas fa-user-secret text-4xl text-blue-500 mb-4"></i>
+                <h5 class="text-xl font-bold">Security</h5>
+                <p class="text-gray-600">Because breaking into things ethically is still legal.</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-8 text-center">
+                <i class="fas fa-robot text-4xl text-blue-500 mb-4"></i>
+                <h5 class="text-xl font-bold">Automation</h5>
+                <p class="text-gray-600">Making scripts so I can be lazy (efficiently).</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-8 text-center">
+                <i class="fas fa-brain text-4xl text-blue-500 mb-4"></i>
+                <h5 class="text-xl font-bold">AI & ML</h5>
+                <p class="text-gray-600">Teaching machines to do my job, so I can chill.</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-8 text-center">
+                <i class="fas fa-lightbulb text-4xl text-blue-500 mb-4"></i>
+                <h5 class="text-xl font-bold">Problem Solving</h5>
+                <p class="text-gray-600">Breaking things just to fix them better.</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-8 text-center">
+                <i class="fab fa-linux text-4xl text-blue-500 mb-4"></i>
+                <h5 class="text-xl font-bold">Linux & Servers</h5>
+                <p class="text-gray-600">sudo make me a sandwich (and a server).</p>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Skills Section -->
-<section id="skills" class="py-5 text-center position-relative">
-    <div class="container">
-        <!-- Decorative Line -->
-        <div class="skills-divider mx-auto mb-4"></div>
+<section id="skills" class="py-16 bg-gray-800 text-white">
+    <div class="container mx-auto">
+        <h2 class="text-center text-4xl font-bold mb-8">My Toolkit</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 text-center">
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fab fa-git-alt text-5xl mb-2"></i><h6>Git</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fab fa-python text-5xl mb-2"></i><h6>Python</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fas fa-file-code text-5xl mb-2"></i><h6>C++</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fas fa-file-code text-5xl mb-2"></i><h6>C</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fab fa-java text-5xl mb-2"></i><h6>Java</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fab fa-php text-5xl mb-2"></i><h6>PHP</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fab fa-linux text-5xl mb-2"></i><h6>Linux</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fas fa-bolt text-5xl mb-2"></i><h6>Vite</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fab fa-css3-alt text-5xl mb-2"></i><h6>Tailwind CSS</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fab fa-react text-5xl mb-2"></i><h6>React</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fas fa-code text-5xl mb-2"></i><h6>Web Development</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fas fa-network-wired text-5xl mb-2"></i><h6>Networking</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fas fa-brain text-5xl mb-2"></i><h6>AI</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fas fa-cogs text-5xl mb-2"></i><h6>n8n</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fab fa-golang text-5xl mb-2"></i><h6>Go</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fab fa-docker text-5xl mb-2"></i><h6>Docker</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fab fa-rust text-5xl mb-2"></i><h6>Rust</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fab fa-digital-ocean text-5xl mb-2"></i><h6>DigitalOcean</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fab fa-npm text-5xl mb-2"></i><h6>npm</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fas fa-file-code text-5xl mb-2"></i><h6>g++</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fas fa-file-code text-5xl mb-2"></i><h6>Clang</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fas fa-wind text-5xl mb-2"></i><h6>Wireshark</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fas fa-cloud text-5xl mb-2"></i><h6>Vercel</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fas fa-server text-5xl mb-2"></i><h6>Render</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fas fa-train text-5xl mb-2"></i><h6>Railway</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fas fa-box text-5xl mb-2"></i><h6>Cargo</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fas fa-tree text-5xl mb-2"></i><h6>Pinecone</h6></div>
+        </div>
+        <h2 class="text-center text-4xl font-bold mb-8 mt-16">Operating Systems I'm Familiar With</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 text-center">
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fab fa-linux text-5xl mb-2"></i><h6>Arch Linux</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fab fa-linux text-5xl mb-2"></i><h6>EndeavourOS</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fab fa-linux text-5xl mb-2"></i><h6>Debian</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fab fa-linux text-5xl mb-2"></i><h6>Kali Linux</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fab fa-linux text-5xl mb-2"></i><h6>Parrot OS</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fab fa-fedora text-5xl mb-2"></i><h6>Fedora</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fab fa-linux text-5xl mb-2"></i><h6>Garuda Linux</h6></div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"><i class="fab fa-linux text-5xl mb-2"></i><h6>Exodia OS</h6></div>
+        </div>
+    </div>
+</section>
 
-        <h2 class="mb-4 fw-bold skills-heading">What I Can Do</h2>
-
-        <!-- Skills Grid -->
-        <div class="row justify-content-center">
-            <div class="col-md-4">
-                <div class="skills-box">
-                    <i class="fas fa-laptop-code skills-icon"></i>
-                    <h4>Full-Stack Dev</h4>
-                    <p>Turning coffee into websites and APIs.</p>
-                </div>
+<!-- Projects Section -->
+<section id="projects" class="py-16 bg-gray-100">
+    <div class="container mx-auto">
+        <h2 class="text-center text-4xl font-bold mb-8">🚀 My Projects</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                <a href="https://ravsalt.github.io/ai-portfolio" target="_blank" class="text-decoration-none text-dark">
+                    <img src="https://github.com/user-attachments/assets/5d1b1404-dbbb-458a-aa5a-ca2e4d4bb6b1" class="w-full h-48 object-cover" alt="AI Portfolio">
+                    <div class="p-6">
+                        <h5 class="text-xl font-bold">AI Portfolio</h5>
+                        <p class="text-gray-600">🧠 Showcasing my AI tools</p>
+                    </div>
+                </a>
             </div>
-
-            <div class="col-md-4">
-                <div class="skills-box">
-                    <i class="fas fa-user-secret skills-icon"></i>
-                    <h4>Security</h4>
-                    <p>Because breaking into things ethically is still legal.</p>
-                </div>
+            <div class="bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                <a href="https://mangaph.ct.ws" target="_blank" class="text-decoration-none text-dark">
+                    <img src="https://github.com/user-attachments/assets/355100d1-5eff-47d2-b8d5-4a53b17482ee" class="w-full h-48 object-cover" alt="MangaPH">
+                    <div class="p-6">
+                        <h5 class="text-xl font-bold">MangaPH</h5>
+                        <p class="text-gray-600">📚 Mobile-first manga reader</p>
+                    </div>
+                </a>
             </div>
-
-            <div class="col-md-4">
-                <div class="skills-box">
-                    <i class="fas fa-robot skills-icon"></i>
-                    <h4>Automation</h4>
-                    <p>Making scripts so I can be lazy (efficiently).</p>
-                </div>
+            <div class="bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                <a href="https://dreven.ct.ws" target="_blank" class="text-decoration-none text-dark">
+                    <img src="https://github.com/user-attachments/assets/0c93e8ea-fb26-4661-88c9-6ce09809253c" class="w-full h-48 object-cover" alt="Dreven (AI Chatbot)">
+                    <div class="p-6">
+                        <h5 class="text-xl font-bold">Dreven (AI Chatbot)</h5>
+                        <p class="text-gray-600">🤖 NLP-based assistant</p>
+                    </div>
+                </a>
             </div>
-
-            <div class="col-md-4">
-                <div class="skills-box">
-                    <i class="fas fa-brain skills-icon"></i>
-                    <h4>AI & ML</h4>
-                    <p>Teaching machines to do my job, so I can chill.</p>
-                </div>
+            <div class="bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                <a href="https://bookhubph.ct.ws" target="_blank" class="text-decoration-none text-dark">
+                    <img src="https://github.com/user-attachments/assets/da32b979-3e78-4280-98a1-47e8fb425b71" class="w-full h-48 object-cover" alt="BookHubPH">
+                    <div class="p-6">
+                        <h5 class="text-xl font-bold">BookHubPH</h5>
+                        <p class="text-gray-600">📖 Sleek online book library</p>
+                    </div>
+                </a>
             </div>
-
-            <div class="col-md-4">
-                <div class="skills-box">
-                    <i class="fas fa-lightbulb skills-icon"></i>
-                    <h4>Problem Solving</h4>
-                    <p>Breaking things just to fix them better.</p>
-                </div>
+            <div class="bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                <a href="https://islaweb.ct.ws" target="_blank" class="text-decoration-none text-dark">
+                    <img src="https://github.com/user-attachments/assets/f7c08e8f-1c75-4c62-a70c-52e4612c5ab0" class="w-full h-48 object-cover" alt="IslaWeb">
+                    <div class="p-6">
+                        <h5 class="text-xl font-bold">IslaWeb</h5>
+                        <p class="text-gray-600">🌴 Web design agency concept</p>
+                    </div>
+                </a>
             </div>
-
-            <div class="col-md-4">
-                <div class="skills-box">
-                    <i class="fab fa-linux skills-icon"></i>
-                    <h4>Linux & Servers</h4>
-                    <p>sudo make me a sandwich (and a server).</p>
-                </div>
+            <div class="bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                <a href="https://samp.ct.ws" target="_blank" class="text-decoration-none text-dark">
+                    <img src="https://github.com/user-attachments/assets/e956f8a2-ebd3-4d6b-b0d5-dd66f9024e75" class="w-full h-48 object-cover" alt="SAMP Server">
+                    <div class="p-6">
+                        <h5 class="text-xl font-bold">SAMP Server</h5>
+                        <p class="text-gray-600">🎮 GTA Multiplayer RP</p>
+                    </div>
+                </a>
+            </div>
+            <div class="bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                <a href="https://lazyprompts.vercel.app" target="_blank" class="text-decoration-none text-dark">
+                    <img src="https://github.com/user-attachments/assets/a9e1b913-5561-42e4-a2fd-5d2acdc42648" class="w-full h-48 object-cover" alt="Lazyprompter">
+                    <div class="p-6">
+                        <h5 class="text-xl font-bold">Lazyprompter</h5>
+                        <p class="text-gray-600">✍️ Generate AI prompts</p>
+                    </div>
+                </a>
+            </div>
+            <div class="bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                <a href="https://neurogen-v1.vercel.app" target="_blank" class="text-decoration-none text-dark">
+                    <img src="https://github.com/user-attachments/assets/4e49f9b9-914e-4d64-bfe3-5eeae2cf164e" class="w-full h-48 object-cover" alt="NeuroGEN">
+                    <div class="p-6">
+                        <h5 class="text-xl font-bold">NeuroGEN</h5>
+                        <p class="text-gray-600">🧠 Generate AI images</p>
+                    </div>
+                </a>
+            </div>
+            <div class="bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                <a href="https://theo.ct.ws" target="_blank" class="text-decoration-none text-dark">
+                    <img src="https://github.com/user-attachments/assets/3a8a5dcd-6e5e-464e-ba35-fcb654a2be21" class="w-full h-48 object-cover" alt="The Project Theo">
+                    <div class="p-6">
+                        <h5 class="text-xl font-bold">The Project Theo</h5>
+                        <p class="text-gray-600">📖 AI-Powered Bible Reader & Chat Assistant</p>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Contact -->
-<section id="contact" class="contact-section py-5 text-center bg-light">
-    <div class="container">
-        <h2 class="contact-heading mb-4 fw-bold">Get in Touch</h2>
-        <p class="contact-text text-muted">Let's talk code, AI, or just geek out over tech.</p>
+<section id="contact" class="py-16 bg-gray-800 text-white text-center">
+    <div class="container mx-auto">
+        <h2 class="text-4xl font-bold mb-4">Get in Touch</h2>
+        <p class="text-lg mb-8">Let's talk code, AI, or just geek out over tech.</p>
 
         <!-- Email -->
-        <p class="contact-email mb-3">
-            <i class="fas fa-envelope me-2 text-primary"></i> 
-            <a href="mailto:ravpogi10@gmail.com" class="text-dark fw-semibold">ravpogi10@gmail.com</a>
+        <p class="text-lg mb-6">
+            <i class="fas fa-envelope mr-2 text-blue-400"></i> 
+            <a href="mailto:ravpogi10@gmail.com" class="text-white font-semibold hover:text-blue-400">ravpogi10@gmail.com</a>
         </p>
 
         <!-- Social Links -->
-        <div class="social-icons mt-4">
-            <a href="https://github.com/Ravsalt" class="contact-btn btn btn-outline-dark me-2" 
+        <div class="flex justify-center space-x-4 mt-6">
+            <a href="https://github.com/Ravsalt" class="bg-gray-700 text-white px-6 py-3 rounded-lg flex items-center transition-transform duration-300 transform hover:scale-105" 
                target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-github me-2"></i> GitHub
+                <i class="fab fa-github mr-2"></i> GitHub
             </a>
-            <a href="https://facebook.com/duero.10" class="contact-btn btn btn-outline-primary"
+            <a href="https://facebook.com/duero.10" class="bg-blue-600 text-white px-6 py-3 rounded-lg flex items-center transition-transform duration-300 transform hover:scale-105"
                target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-facebook me-2"></i> Facebook
+                <i class="fab fa-facebook mr-2"></i> Facebook
             </a>
         </div>
     </div>
 </section>
 
-
-
-    <!-- Footer -->
-    <footer class="footer py-3 bg-dark text-white text-center">
-        <p>&copy; 2024 Raven. All rights reserved.</p>
-    </footer>
+<!-- Footer -->
+<footer class="py-4 bg-gray-900 text-white text-center">
+    <p>&copy;<script>document.write(new Date().getFullYear());</script> Raven. All rights reserved.</p>
+</footer>
 
     <!-- AI Chat Panel -->
     <div id="aiChatPanel" class="ai-chat-panel">
@@ -295,7 +430,7 @@
     </script>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <script src="./github-api.js" defer></script>
     <script src="./ai-chat.js" defer></script>
