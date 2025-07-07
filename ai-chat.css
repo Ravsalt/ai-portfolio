@@ -60,7 +60,7 @@
 }
 
 .ai-chat-header {
-    background: linear-gradient(135deg, #6B6354, #8A7F6D); /* Gradient background */
+    background: linear-gradient(135deg, #0b8eb3, #0b8eb3); /* Gradient background */
     color: var(--text-light, #F9F9F9);
     padding: 14px 18px; /* More padding */
     display: flex;
@@ -124,7 +124,7 @@
 }
 
 .ai-chat-close:active {
-    background-color: rgba(255, 255, 255, 0.25);  /* Slightly darker on press */
+    background-color: rgba(1, 217, 255, 0.25);  /* Slightly darker on press */
     transform: scale(0.9) rotate(90deg); /* Pressed effect with rotation */
 }
 
@@ -172,13 +172,13 @@
     position: absolute;
     bottom: -18px;
     font-size: 0.65rem;
-    color: #999;
+    color: #0b8eb3;
     white-space: nowrap;
 }
 
 .ai-chat-message-user {
-    background: linear-gradient(135deg, #BF9782, #D1A994); /* Gradient background */
-    color: var(--text-dark, #2E2D2E);
+    background: linear-gradient(135deg, #0b8eb3, #0b8eb3); /* Gradient background */
+    color: var(--text-dark, #ffffff);
     margin-left: auto;
     border-bottom-right-radius: 5px; /* Adjust bubble shape */
     border-top-right-radius: 5px; /* Adjust bubble shape */
@@ -424,7 +424,7 @@
 
 #aiChatSend {
     padding: 8px 16px;
-    background: linear-gradient(135deg, #6A5D53, #8A7F6D); /* Gradient background */
+    background: linear-gradient(135deg, #0b8eb3, #0b8eb3); /* Gradient background */
     color: var(--text-light, #F9F9F9);
     border: none;
     border-radius: 20px; /* Fully rounded */
@@ -704,12 +704,12 @@
 
 /* Rate limit specific message styling */
 .rate-limit-message {
-    color: #9c4221;
+    color: #0b8eb3;
     font-style: italic;
 }
 
 /* Countdown timer styling */
 .retry-countdown {
     font-weight: bold;
-    color: #9c4221;
+    color: #0b8eb3;
 }
