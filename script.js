@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
             backSpeed: window.matchMedia("(max-width: 768px)").matches ? 40 : 50,
             loop: true,
             showCursor: true,
-            cursorChar: '_',
+            cursorChar: '',
             smartBackspace: true,
             contentType: 'html'
         });
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add(('ontouchstart' in window || navigator.maxTouchPoints) ? 'touch-device' : 'non-touch-device');
 
     // Navbar scroll effect
-    const navbar = document.querySelector('.navbar');
+    const navbar = document.querySelector('header');
     if (navbar) {
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
