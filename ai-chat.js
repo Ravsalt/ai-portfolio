@@ -163,11 +163,18 @@ document.addEventListener('DOMContentLoaded', async () => {
                     // Add featured projects section
                     githubData += `## Featured Projects\n`;
                     const featuredProjects = [
-                        "MangaPH: Because manga should be easy to read, not a scavenger hunt.",
-                        "IslaWeb: Helping businesses get online so they can flex their websites.",
-                        "BookHub: 📚 Discover. Read. Repeat. The only commitment issues here are with book series.",
-                        "Maldita: One click decides everything. No pressure. But also, pressure.",
-                        "Fort Santiago: A Roblox military game, because why not?"
+                       
+                        "AI Portfolio - Showcasing my AI tools",
+                        "MangaPH - Mobile-first manga reader",
+                        "Dreven (AI Chatbot) - NLP-based assistant",
+
+                        "BookHubPH - Sleek online book library",
+                        "IslaWeb - Web design agency concept",
+                        "SAMP Server - GTA Multiplayer RP",
+
+                        "Lazyprompter - Generate AI prompts",
+                        "NeuroGEN - Generate AI images",
+                        "The Project Theo - AI-Powered Bible Reader & Chat Assistant",
                     ];
                     
                     featuredProjects.forEach(project => {
@@ -344,7 +351,7 @@ ${githubData}
         // Positive indications this is about Raven
         const relevantTerms = [
             'project', 'portfolio', 'raven', 'skill', 'work', 'create', 'build',
-            'code', 'develop', 'program', 'tech', 'experience', 'github', 'repo'
+            'code', 'develop', 'program', 'tech', 'experience', 'github', 'repo',"interest"
         ];
         
         for (const term of relevantTerms) {
@@ -366,7 +373,11 @@ ${githubData}
             'tell me about (the )?project',
             'what is (the )?project',
             'more (information|info|details) (on|about) (the )?project',
-            'describe (the )?project'
+            'describe (the )?project',
+            'what do you think about (the )?project',
+            'what is your favorite project',
+            'what do you like about (the )?project',
+            'why do you like (the )?project',
         ];
         
         // Check if query matches any project query patterns
@@ -395,7 +406,7 @@ ${githubData}
         }
         
         // Check for the featured project names
-        const featuredProjects = ["MangaPH", "IslaWeb", "BookHub", "Maldita", "Fort Santiago"];
+        const featuredProjects = ["MangaPH", "IslaWeb", "BookHub", "Neuragen", "Lazy prompter", "The Project Theo"];
         for (const project of featuredProjects) {
             if (query.includes(project.toLowerCase())) {
                 return project;
