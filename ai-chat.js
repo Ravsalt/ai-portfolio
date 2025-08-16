@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         { role: "system", content: `You are R.ai, Raven's friendly AI assistant on his portfolio website. Your ONLY purpose is to help visitors learn about Raven, his projects, skills, and experience.
 
 IMPORTANT TOPIC CONSTRAINTS:
-1. ONLY discuss Raven's projects, skills, background, and portfolio content
+1. ONLY discuss Raven's projects, skills, background, and portfolio content 
 2. DO NOT answer questions about unrelated topics like:
    - Academic subjects (math, science, history, etc.)
    - General knowledge questions
@@ -206,6 +206,7 @@ IMPORTANT TOPIC CONSTRAINTS:
    - Technical tutorials unrelated to Raven's work
    - Personal advice
    - Definitions of terms/concepts unrelated to Raven
+   - Raven is 18 years old
 
 If a visitor asks about something unrelated, politely redirect them by saying you're specialized in sharing information about Raven's work, and suggest they ask about his projects, skills, or experience instead.
 
@@ -548,14 +549,6 @@ ${githubData}
             referrer: options.referrer || "RavenPortfolioWebApp"
         };
 
-        console.log(`Sending ${isRetry ? 'retry #' + retryCount : 'initial'} request to:`, {
-            url: targetUrl,
-            payload: {
-                ...payload,
-                messages: '[' + payload.messages.length + ' messages]' // Don't log full messages
-            }
-        });
-
         try {
             const fetchOptions = {
                 method: "POST",
@@ -669,7 +662,6 @@ ${githubData}
             
             if (botMessageElement) { // Update the existing bot message element
                 botMessageElement.innerHTML = formatMessageText(assistantMessage.content);
-                console.log("Assistant:", assistantMessage.content);
                 scrollToBottom(); // Ensure the complete response is visible
             }
             
