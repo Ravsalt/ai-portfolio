@@ -70,7 +70,6 @@ async function fetchWithCors(url, options = {}) {
  */
 async function fetchUserRepositories(username, count = 10) {
     const apiUrl = `https://api.github.com/users/${username}/repos?per_page=${count}&sort=updated`;
-    console.log(`Fetching repositories from: ${apiUrl}`);
 
     try {
         const response = await fetchWithCors(apiUrl, {
@@ -113,7 +112,6 @@ async function fetchUserRepositories(username, count = 10) {
             url: repo.html_url
         }));
         
-        console.log(`Processed ${processedRepos.length} repositories`);
         return JSON.stringify(processedRepos);
 
     } catch (error) {
@@ -134,7 +132,6 @@ async function fetchUserRepositories(username, count = 10) {
  */
 async function fetchLatestCommitsFromGitHub(username, repoName, count = 3) {
     const apiUrl = `https://api.github.com/repos/${encodeURIComponent(username)}/${encodeURIComponent(repoName)}/commits?per_page=${count}`;
-    console.log(`Fetching commits from: ${apiUrl}`);
 
     try {
         const response = await fetchWithCors(apiUrl, {
